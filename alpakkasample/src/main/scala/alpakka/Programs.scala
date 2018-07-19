@@ -10,8 +10,11 @@ import akka.stream.scaladsl.Sink
 import alpakka.Modules.AlgebrasModule
 import com.datastax.driver.core.PreparedStatement
 import freestyle.free._
+import freestyle.free.implicits
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
+
+import scala.concurrent.Future
 
 object Programs {
 
@@ -41,13 +44,8 @@ object Programs {
       cluster <- module.cassandraApi.getCluster("127.0.0.1", 9042, "", "")
       session <- module.cassandraApi.getSession("alpakka_space", cluster)
       preparedStatement <- module.cassandraApi.prepare(session,query)
-      flow <- CassandraFlow.createUnloggedBatchWithPassThrough[Event, String](parallelism = 2,
-        preparedStatement.get,
-        statementBinder,
-        ti => ti.id,
-        settings)
-      graph <-  source.via(flow).toMat(Sink.ignore)
-      a <- FreeS.pure(module.kafkaApi.materializer(graph))
+      flow <- module.cassandraApi.getFlow(preparedStatement.get,session)
+      a <- module.cassandraApi.materialize(source,flow)
     } yield a
   }
 

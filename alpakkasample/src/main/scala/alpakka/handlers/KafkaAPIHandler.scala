@@ -21,9 +21,9 @@ object KafkaAPIHandler {
      val source = Consumer.committableSource(consumerSettings, Subscriptions.topics(topicName))
       source.map(msg => {println(s"===$msg==");Event(msg.record.timestamp().toString, msg.record.value)})
     }
-    def materializer(runnableGraph:RunnableGraph[Nothing]) = Future {
+    /*def materializer(runnableGraph:RunnableGraph[Nothing]) = Future {
       runnableGraph.run()
-    }
+    }*/
 
   }
 }

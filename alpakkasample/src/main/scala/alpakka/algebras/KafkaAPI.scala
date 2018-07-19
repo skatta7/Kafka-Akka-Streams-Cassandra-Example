@@ -10,6 +10,6 @@ import freestyle.free.implicits._
 @free
 trait KafkaAPI {
   def getSource(consumerSettings: ConsumerSettings[String, String], topicName: String): FS[Source[Event, Consumer.Control]]
-  def materializer(runnableGraph:RunnableGraph[Nothing]):FS[Nothing]
+ // def materializer(runnableGraph:RunnableGraph[Nothing]):FS[Nothing]
 
 }
