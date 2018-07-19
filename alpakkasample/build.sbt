@@ -12,4 +12,4 @@ libraryDependencies += "com.lightbend.akka" %% "akka-stream-alpakka-cassandra" %
 libraryDependencies += "com.datastax.cassandra" % "cassandra-driver-core" % "3.3.0"
 
 libraryDependencies += "io.frees" %% "frees-core" % "0.7.0"
-/*libraryDependencies += "org.typelevel" %% "cats-free" % "1.1.0"*/
+libraryDependencies += "org.typelevel" %% "cats-free" % "1.1.0"
